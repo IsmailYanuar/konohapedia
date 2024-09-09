@@ -5,7 +5,7 @@ from django.shortcuts import render
 def show_main(request):
     context = {
         'npm' : '2306245781',
-        'name': 'Ismail Yanuar Anwas',
+        'name': 'Welcome to konohapedia',
         'class': 'PBP E'
     }
 

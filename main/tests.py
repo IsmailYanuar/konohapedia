@@ -20,7 +20,7 @@ class mainTest(TestCase):
           name="konohapedia",
           description = "Semua produk yang dijual di tempat kami, 1000 persen ori",
           price = 8,
-          rating = 5.0,
+          rating = 6.0,
           date = 7,
           
         )
