@@ -2,8 +2,8 @@ h1 {
     font-size: 2em;
     font-weight: bold;
     text-align: center;
-    color: gray;
-    background-color: antiquewhite;
+    color: white;
+    background-color: black;
     margin-top: 0;
     padding: 10px; 
 } 
@@ -16,6 +16,6 @@ body {
 
 button {
     margin-bottom: 20px;
-    background-color: purple;
+    background-color: orange;
 }
 
