@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles1.css' %}">
+    <title>Enter Page</title>
+</head>
+<body>
+
+    <h1>{{ names }}</h1>
+
+    <br />
+
+    <h3>name</h3>
+    <p>Ismail Yanuar Anwas </p>
+    <h3>NPM:</h3>
+    <p>2306245781</p>
+    <h3>class</h3>
+    <p>PBP E</p>
+    
+    <h2>Pesanan anda berhasil. Terima kasih atas pesanan anda!</h2>
+    <p>Pesanan anda adalah: <strong>{{ order }}</strong></p>
+    
+</body>
+</html>
+

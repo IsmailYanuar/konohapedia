@@ -36,7 +36,7 @@
 
     Mengapa model pada Django disebut sebagai ORM?
         mengapa disebut sebagai ORM karena ORM (Object-Relational Mapping) menggunakan ORM untuk memetakan objek-objek dalam kode Python ke tabel-tabel dalam database ralasional 
-
+    
 
 
 

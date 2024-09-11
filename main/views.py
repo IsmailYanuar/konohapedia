@@ -4,9 +4,28 @@ from django.shortcuts import render
 
 def show_main(request):
     context = {
-        'npm' : '2306245781',
         'name': 'Welcome to konohapedia',
-        'class': 'PBP E'
-    }
+        'price': 'harga terjangkau',
+        'description': 'Semua produk yang dijual di tempat kami, 1000 persen ori',
+        'rating': '5.0',
+        'date': '7',
 
+    }
     return render(request, "main.html", context)
+
+def enter(request):
+    if request.method == "POST":
+        order = request.POST.get('order', '')  
+        context = {
+            'order': order,  
+            'names': 'Welcome to konohapedia',
+        }
+    else:
+        context = {
+            'order': 'Tidak ada pesanan',
+        }
+
+
+    return render(request, "enter.html", context)
+
+
