@@ -1,13 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <title>Enter Page</title>
-</head>
-<body>
+{% extends 'base.html' %} 
+{% block meta %}
+<style>
+    h1 {
+    background-color: black;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    margin-top: 0;
+    padding: 10px
+}
+
+    body {
+        background-color: aliceblue;
+    }
+    
+</style>
+{% endblock meta %}
+{% block content %}
+
 
     <h1>{{ names }}</h1>
 
@@ -23,8 +34,9 @@
     <h2>Pesanan anda berhasil. Terima kasih atas pesanan anda!</h2>
     <p>Pesanan anda adalah: <strong>{{ order }}</strong></p>
     
-</body>
-</html>
+
+
+{% endblock content %}
 
 
 
