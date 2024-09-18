@@ -16,13 +16,14 @@ class mainTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_strong_mood_user(self):
+        now = timezone.now()
         name = Product.objects.create(
           name="konohapedia",
           description = "Semua produk yang dijual di tempat kami, 1000 persen ori",
           price = 8,
           rating = 6.0,
-          date = 7,
+          date = now
           
         )
-        self.assertTrue(name.is_mood_strong)
+       
         

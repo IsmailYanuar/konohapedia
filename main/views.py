@@ -16,6 +16,9 @@ def show_main(request):
         'date': '7',
         'product_entries': product_entries,
 
+        'nama' : 'Ismail Yanuar Awnas',
+        'NPM' : '2306245781',
+        'kelas' : 'PBP E'
     }
     return render(request, "main.html", context)
 
@@ -49,5 +52,17 @@ def enter(request):
 def show_xml(request):
     data = Product.objects.all()
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_xml_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 

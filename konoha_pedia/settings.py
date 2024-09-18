@@ -128,4 +128,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'main'),
 ]
 
+CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://ismail-yanuar-konohapedia.pbp.cs.ui.ac.id", "https://ismail-yanuar-konohapedia.pbp.cs.ui.ac.id"]
+
 

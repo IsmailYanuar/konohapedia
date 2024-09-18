@@ -1,3 +1,5 @@
+Tugas 2
+
 [x] Membuat sebuah proyek Django baru.
 [x] Membuat aplikasi dengan nama main pada proyek tersebut.
 [x] Melakukan routing pada proyek agar dapat menjalankan aplikasi main.
@@ -38,5 +40,36 @@
         mengapa disebut sebagai ORM karena ORM (Object-Relational Mapping) menggunakan ORM untuk memetakan objek-objek dalam kode Python ke tabel-tabel dalam database ralasional 
     
 
+
+
+
+Tugas 3
+
+[X] Membuat input form untuk menambahkan objek model pada app sebelumnya.
+[X] Tambahkan 4 fungsi views baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML by ID, dan JSON by ID.
+[x] Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.
+[X] Menjawab beberapa pertanyaan berikut pada README.md pada root folder.
+
+    Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+        karena untuk mengirimkan data dari satu stack ke stack lainnya, data yang dikirimkan dapat berbagai variasi, dan juga untuk menukar data  
+
+    Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+        keduanya baik karena XML dan JSON sama-sama memiliki kelebihan masing-masing, XML sangat baik untuk representasi data yang kompleks sehingga cocok untuk dokumen yang hierarkis atau struktural sedangkan JSON lebih ringan biasa digunakan untuk web sederhana dan tidak terlalu berat dan juga JSON mudah untuk diprosees
+
+    Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+        digunakan untuk memvalidasi isi input dari form tersebut dan mengapa kita perlu method tersebut karena untuk memastikan bahwa data yang dikirimkan oleh pengguna sudah sesuai dengan aturan yang diharapkan oleh sistem
+
+    Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+        {% csrf_token %} adalah token yang berfungsi sebagai security. Token ini di-generate secara otomatis oleh Django untuk mencegah serangan berbahaya. jika tidak ada csrf_token akan mudah untuk diserang, hal tersebut dapat dimanfaatkan oleh penyerang karena penyerang bisa medapatkan data kredensial pengguna tanpa izin, lalu penyerang dapat mengubah informasi pribadi pengguna.
+
+    Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+        memastikan bahwa seluruh file sudah sesuai, membuat direktori templates pada direktori utama, membuat file base.html di dalam direktori templates, lalu pergi ke settings.py pada direktori konohapedia dan mengubah isi yang mengandung TEMPLATES, lalu pada subdirektori templates pada direktori main ubah kodenya, menambahkan baris yaitu import uuid pada models.py di subdirektori main, lalu makemigrations dan migrate, lalu buat berkas baru pada direktori main yang bernama forms.py lalu isi sesuai petunjuk setelah itu buka file views.py pada direktori main dan tambahkan apa yang diperlukan lalu buat fungsi baru yang namanya dapat disesuaikan, lalu ubah fungsi show_main pada berkas views.py, lalu buka urls.py pada direktori main dan import fungsi yang sudah dibuat dan juga tambahkan pattern pada urls.py di direktori main, buat html baru, buka main.html dan tambahkan kode yang diperintahkan, lalu untuk XML buka views.py dan tambahkan apa yang diperlukan, dan buat fungsi yang menerima parameter lalu tambahkan return  HttpResponse, dan buka urls.py lalu diimport fungsi tadi, tambahkan path pada urlpattern yang sudah dibuat sebelumnya. Untuk mengembalikan data dalam format JSON di Django, buat fungsi show_json di views.py yang melakukan query ke semua data MoodEntry dan mengembalikannya dalam format JSON menggunakan HttpResponse. Path URL di urls.py juga harus ditambahkan agar data ini dapat diakses. Untuk mengembalikan data berdasarkan ID dalam format XML atau JSON, buat fungsi show_xml_by_id dan show_json_by_id di views.py, yang memfilter data sesuai ID dan mengembalikannya dalam format yang diinginkan. Tambahkan juga path URL di urls.py untuk mengakses data ini. Selanjutnya, gunakan Postman untuk mengirimkan request GET ke URL seperti http://localhost:8000/json/ untuk memverifikasi pengambilan data. Untuk deployment otomatis ke PWS, buat direktori .github/workflows/ dan tambahkan file deploy.yml yang berisi konfigurasi GitHub Actions, sehingga setiap kali push ke branch main, GitHub akan otomatis push ke PWS. Tambahkan repository secret di GitHub untuk PWS URL dan tambahkan CSRF_TRUSTED_ORIGINS di settings.py untuk mengizinkan URL PWS dalam aplikasi.
+
+[X] Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+
+![Alt Text](xml_tugas3.jpg)
+![Alt Text](json_tugas3.jpg)
+![Alt Text](xml_id_tugas3.jpg)
+![Alt Text](json_id_tugas3.jpg)
 
 

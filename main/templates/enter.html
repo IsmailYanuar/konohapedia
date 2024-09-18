@@ -1,43 +1,19 @@
 {% extends 'base.html' %} 
-{% block meta %}
-<style>
-    h1 {
-    background-color: black;
-    font-size: 2em;
-    font-weight: bold;
-    text-align: center;
-    color: white;
-    margin-top: 0;
-    padding: 10px
-}
-
-    body {
-        background-color: aliceblue;
-    }
-    
-</style>
-{% endblock meta %}
 {% block content %}
+<h1>Add New Order</h1>
 
+<form method="POST">
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+    <tr>
+      <td></td>
+      <td>
+        <input type="submit" value="Add order" />
+      </td>
+    </tr>
+  </table>
+</form>
 
-    <h1>{{ names }}</h1>
-
-    <br />
-
-    <h3>name</h3>
-    <p>Ismail Yanuar Anwas </p>
-    <h3>NPM:</h3>
-    <p>2306245781</p>
-    <h3>class</h3>
-    <p>PBP E</p>
-    
-    <h2>Pesanan anda berhasil. Terima kasih atas pesanan anda!</h2>
-    <p>Pesanan anda adalah: <strong>{{ order }}</strong></p>
-    
-
-
-{% endblock content %}
-
-
-
+{% endblock %}
 
