@@ -73,3 +73,167 @@ Tugas 3
 ![Alt Text](json_id_tugas3.jpg)
 
 
+
+
+
+Tugas 4
+
+[X] Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
+[X] Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+[X] Menghubungkan model Product dengan User.
+[X] Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi.
+[X] Menjawab beberapa pertanyaan berikut pada README.md pada root folder (silakan modifikasi README.md yang telah kamu buat sebelumnya; tambahkan subjudul untuk setiap tugas).
+
+    Apa perbedaan antara HttpResponseRedirect() dan redirect()
+        HttpResponseRedirect(): Mengarahkan ke URL yang spesifik
+        redirect(): Shortcut yang lebih fleksibel, bisa menerima nama view, URL, atau model instance.
+
+    Jelaskan cara kerja penghubungan model Product dengan User!
+        Menunjukkan setiap produk memiliki satu user yang jadi pemiliknya, jadi ketika user login dan masuk ke menu utama itu adalah akun milik user tersebut, user itu bebas untuk membeli barang dan memilih barang, dan juga jika akun user tersebut dihapus maka semua barang yang sudah dipesan akan hilang. 
+
+    Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+        Authentikasi adalah pada saat login akan diminta username dan password, hal itu agar tau siapa yang masuk, dan program akan berpindah ke akun orang tersebut, serta data atau informasi masih tersimpan di akun tersebut 
+
+        Authorization adalah sesuatu yang bisa dilakukan pengguna dan tidak bisa dilakukan oleh pengguna, contoh: pengguna bisa melihat data akun sendiri tetapi tidak bisa melihat data akun pengguna lain.
+
+    Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
+        Django dapat mengingat pengguna karena adanya cookies karena django menyimpan session id dalam cookies, hal itu membuatnya Django dapat mengigat, terlebih labgi cookies juga digunakan untuk menyimpan informasi dan data pengguna, tetapi tidak semuanya aman
+
+    Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+        - Membuka views pada main, dan menambahkan import UserCreationForm dan messages
+            from django.contrib.auth.forms import UserCreationForm
+            from django.contrib import messages
+
+        - Menambahkan fungsi register di bawah views.py 
+            def register(request):
+            form = UserCreationForm()
+
+            if request.method == "POST":
+                form = UserCreationForm(request.POST)
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, 'Your account has been successfully created!')
+                    return redirect('main:login')
+            context = {'form':form}
+            return render(request, 'register.html', context)
+
+        - Membuat register.html di direktori main/templates
+
+        - Buka urls.py pada subdirektori main 
+            from main.views import register
+
+        - Menambahkan path urlpatterns 
+            path('register/', register, name='register'),
+
+        - Membuka views.py pada direktori main untuk menambahkan authenticate, login, dan AuthenticationForm
+            from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+            from django.contrib.auth import authenticate, login
+
+        - Menambahkan fungsi login_user di views.py
+        - Membuat berkas HTML dengan nama login.html pada direktori main/templates
+        - Membuka urls.py yang ada pada direktrori main 
+            from main.views import login_user
+
+        - Menambahkan path url ke dalam urlpattern 
+            path('login/', login_user, name='login'),
+
+        MEMBUAT FUNGSI LOGOUT
+
+        - Membuka ulang views.py di direktori main dan tambahkan kode ini
+            from django.contrib.auth import logout
+
+        - Menamabahkan fungsi views.py untuk logout 
+            def logout_user(request):
+                logout(request)
+                return redirect('main:login')
+
+        - Membuka main.html di direktori main
+            <a href="{% url 'main:logout' %}">
+                <button>Logout</button>
+            </a>
+
+        - Membuka urls.py pada subdirektori main
+            from main.views import logout_user
+
+        - Menambahkan path url ke dalam urlpattern
+            urlpatterns = [
+                ...
+                path('logout/', logout_user, name='logout'),
+            ]
+
+        TUTORIAL: MERESTRIKSI AKSES HALAMAN MAIN
+
+        - Membuka ulang views.py pada subdirektori main, dan menambahkan import login_required
+            from django.contrib.auth.decorators import login_required
+
+        - Menambahkan potongan @login_required(login_url='/login')
+            ...
+            @login_required(login_url='/login')
+            def show_main(request):
+            ...
+
+        TUTORIAL: MENGGUNAKAN DATA DARI COOKIES
+        
+        - Logout terlebih dahulu 
+        - Membuka views.py kembali di subdirektori main lalu menambahkan import HttpResponseRedirect, reverse, dan datetime
+            import datetime
+            from django.http import HttpResponseRedirect
+            from django.urls import reverse
+
+        - pada fungsi login_user manambahkan cookie dengan mengganti potongan kode pada bagian if form.is_valid()
+            ...
+            if form.is_valid():
+                user = form.get_user()
+                login(request, user)
+                response = HttpResponseRedirect(reverse("main:show_main"))
+                response.set_cookie('last_login', str(datetime.datetime.now()))
+                return response
+            ...
+
+        - Pada fungsi show_main menambahakan potongan last_login
+            'last_login': request.COOKIES['last_login'],
+
+        - Mengubah fungsi logout_user menggunakan potongan kode
+            def logout_user(request):
+                logout(request)
+                response = HttpResponseRedirect(reverse('main:login'))
+                response.delete_cookie('last_login')
+                return response
+
+        - Membuka main.html dan manambahkan potongan kode untuk menampilkan informasi last_login
+            <h5>Sesi terakhir login: {{ last_login }}</h5>
+
+        MENGHUBUNGKAN MODEL PRODUCT DENGAN USER 
+        
+        - Membuka models.py di subdirektori main dan manambahkan potongan kode 
+            from django.contrib.auth.models import User
+
+        - Menambahkan kode pada models.py untuk mengkaitkan product dengan user 
+            class MoodEntry(models.Model):
+                user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+        - Ubah create_mood_entry di views.py:
+            Tambahkan commit=False saat menyimpan form agar objek MoodEntry tidak langsung disimpan.
+            Set mood_entry.user dengan request.user sebelum menyimpan.
+            Ini memastikan setiap entri mood terasosiasi dengan user yang sedang login.
+
+        - Ubah fungsi show_main:
+            Filter MoodEntry berdasarkan request.user untuk hanya menampilkan entri mood milik pengguna yang sedang login.
+            Tampilkan request.user.username di halaman main.
+        
+        - Pastikan ada user di database:
+            Sebelum migrasi, pastikan ada minimal satu user yang tercatat untuk menetapkan nilai default pada field user di model.
+
+        - Lakukan migrasi model:
+            Jalankan python manage.py makemigrations.
+            Saat error muncul, pilih 1 untuk menetapkan user default (ID 1) pada semua data yang ada.
+
+        - Pengaturan production di settings.py:
+            Tambahkan import os.
+            Ganti variabel DEBUG menjadi:
+                PRODUCTION = os.getenv("PRODUCTION", False)
+                DEBUG = not PRODUCTION
+
+
+
+[X] Melakukan add-commit-push ke GitHub.

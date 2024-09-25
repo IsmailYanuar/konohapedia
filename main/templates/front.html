@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Welcome to Your App</title>
+{% endblock meta %}
+
+{% block content %}
+<style>
+    /* Pengaturan gaya umum untuk halaman */
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #1f4037, #99f2c8);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Container utama untuk konten */
+    .landing-container {
+        max-width: 800px;
+        padding: 50px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 15px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Gaya teks heading */
+    h1 {
+        font-size: 56px;
+        margin-bottom: 20px;
+        color: #00e676;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Gaya paragraf */
+    p {
+        font-size: 20px;
+        margin-bottom: 30px;
+        line-height: 1.5;
+    }
+
+    /* Gaya untuk tombol login */
+    .btn {
+        padding: 15px 30px;
+        font-size: 18px;
+        color: white;
+        background-color: #00c6ff;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        background-color: #0073e6;
+    }
+
+    /* Gaya footer kecil di bagian bawah */
+    .footer {
+        margin-top: 40px;
+        font-size: 14px;
+        color: #ccc;
+    }
+
+    .footer a {
+        color: #00e676;
+        text-decoration: none;
+    }
+
+    .footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsif untuk layar kecil */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 40px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 16px;
+        }
+
+        .landing-container {
+            padding: 30px;
+        }
+    }
+
+</style>
+
+<div class="landing-container">
+    <h1>Welcome to konohapedia</h1>
+    <p>Ismail Yanuar Anwas dengan kelas PBP E</p>
+    <a href="{% url 'main:login' %}" class="btn">Get Started</a>
+
+    <div class="footer">
+        <p>&copy; 2024 konohapedia | <a href="#">Privacy Policy</a></p>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+<!-- Discover an innovative and user-friendly platform where you can access our powerful tools and services. Let's make your experience extraordinary! -->

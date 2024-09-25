@@ -3,7 +3,7 @@
 <h1>konohapedia</h1>
 
 <h5>Nama: </h5>
-<p>{{ nama }}<p>
+<p>{{ name }}<p>
 
 <h5>NPM:</h5>
 <p>{{ NPM }}</p>
@@ -20,6 +20,7 @@
     <th>description</th>
     <th>price</th>
     <th>rating</th>
+    <th>date</th>
   </tr>
 
   {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
@@ -30,6 +31,7 @@
     <td>{{product_entry.description}}</td>
     <td>{{product_entry.price}}</td>
     <td>{{product_entry.rating}}</td>
+    <td>{{product_entry.date}}</td>
   </tr>
   {% endfor %}
 </table>
@@ -40,5 +42,11 @@
 <a href="{% url 'main:enter' %}">
   <button>order</button>
 </a>
+
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
+</a>
+
+<h5>Sesi terakhir login: {{ last_login }}</h5>
 
 {% endblock content %}
