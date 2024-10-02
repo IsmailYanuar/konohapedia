@@ -1,52 +1,76 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h1>konohapedia</h1>
+{% include 'navbar.html' %}
 
-<h5>Nama: </h5>
-<p>{{ name }}<p>
+<!-- Konten utama -->
+<div class="bg-gray-50 p-8 rounded-lg shadow-lg mx-auto mt-12 max-w-4xl">
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-6">Welcome to konohapedia</h1>
 
-<h5>NPM:</h5>
-<p>{{ NPM }}</p>
+    {% if not product_entries %}
+    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+        <img src="{% static 'image/sedih-banget.png' %}" alt="Sedih banget" class="w-32 h-32 mb-4"/>
+        <p class="text-center text-gray-600 mt-4">Belum ada data pesanan pada konohapedia.</p>
+    </div>
+    {% else %}
+    <table class="min-w-full bg-white border border-gray-200 shadow-lg">
+        <thead>
+            <tr class="bg-indigo-500 text-white">
+                <th class="py-2 px-4 border">Name</th>
+                <th class="py-2 px-4 border">Description</th>
+                <th class="py-2 px-4 border">Price</th>
+                <th class="py-2 px-4 border">Rating</th>
+                <th class="py-2 px-4 border">Date</th>
+                <th class="py-2 px-4 border">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product_entry in product_entries %}
+            <tr class="hover:bg-gray-100">
+                <td class="py-2 px-4 border">{{ product_entry.name }}</td>
+                <td class="py-2 px-4 border">{{ product_entry.description }}</td>
+                <td class="py-2 px-4 border">{{ product_entry.price }}</td>
+                <td class="py-2 px-4 border">{{ product_entry.rating }}</td>
+                <td class="py-2 px-4 border">{{ product_entry.date }}</td>
+                <td class="py-2 px-4 border text-center">
+                    <a href="{% url 'main:edit_product' product_entry.id %}" class="text-blue-500 hover:underline">Edit</a> |
+                    <a href="{% url 'main:delete_product' product_entry.id %}" class="text-red-500 hover:underline">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 
-<h5>Kelas: :</h5>
-<p>{{ kelas }}</p>
+    <!-- Tombol Order -->
+    <div class="mt-8 text-center">
+        <a href="{% url 'main:enter' %}" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg shadow-md transition duration-300">
+            Order Now
+        </a>
+    </div>
+      
+    <div class="flex justify-start">
+        <div id="login-box" class="flex rounded-lg items-center bg-gray-800 py-2 px-4 shadow-md max-w-xs transition-all duration-300 cursor-pointer hover:max-w-full">
+          <h1 class="text-yellow-200 text-lg font-semibold text-center truncate">Last Login: {{ last_login }}</h1>
+        </div>
+    </div>
+      
+    <script>
+    document.getElementById('login-box').addEventListener('click', function() {
+        this.classList.toggle('max-w-full');
+    });
+    </script>
 
-{% if not product_entries %}
-<p>Belum ada data pesanan pada konohapedia.</p>
-{% else %}
-<table>
-  <tr>
-    <th>name</th>
-    <th>description</th>
-    <th>price</th>
-    <th>rating</th>
-    <th>date</th>
-  </tr>
+</div>
 
-  {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
-  {% endcomment %} 
-  {% for product_entry in product_entries %}
-  <tr>
-    <td>{{product_entry.name}}</td>
-    <td>{{product_entry.description}}</td>
-    <td>{{product_entry.price}}</td>
-    <td>{{product_entry.rating}}</td>
-    <td>{{product_entry.date}}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% endif %}
+<!-- Script for Mobile Menu Toggle -->
+<script>
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-<br />
-
-<a href="{% url 'main:enter' %}">
-  <button>order</button>
-</a>
-
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
-
-<h5>Sesi terakhir login: {{ last_login }}</h5>
+    hamburgerBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
 
 {% endblock content %}

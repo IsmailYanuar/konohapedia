@@ -237,3 +237,126 @@ Tugas 4
 
 
 [X] Melakukan add-commit-push ke GitHub.
+
+
+
+
+
+
+
+
+Tugas 4
+[x]  Implementasikan fungsi untuk menghapus dan mengedit product.
+[x]  Kustomisasi desain pada template HTML yang telah dibuat pada tugas-tugas sebelumnya menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma) dengan ketentuan sebagai berikut:
+        [x]  Kustomisasi halaman login, register, dan tambah product semenarik mungkin.
+        [x]  Kustomisasi halaman daftar product menjadi lebih menarik dan responsive. Kemudian, perhatikan kondisi berikut:
+             [x] Jika pada aplikasi belum ada product yang tersimpan, halaman daftar product akan menampilkan gambar dan pesan bahwa belum ada product yang terdaftar.
+             [x] Jika sudah ada product yang tersimpan, halaman daftar product akan menampilkan detail setiap product dengan menggunakan card (tidak boleh sama persis dengan desain pada Tutorial!).
+        [x] Untuk setiap card product, buatlah dua buah button untuk mengedit dan menghapus product pada card tersebut!
+        [x] Buatlah navigation bar (navbar) untuk fitur-fitur pada aplikasi yang responsive terhadap perbedaan ukuran device, khususnya mobile dan desktop.
+
+
+[x] Menjawab beberapa pertanyaan berikut pada README.md pada root folder (silakan modifikasi README.md yang telah kamu buat sebelumnya; tambahkan subjudul untuk setiap tugas).
+    [x] Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+        Jawab:
+            - Inline CSS (dalam atribut style pada elemen).
+            - ID Selector (#id).
+            - Class, Attribute, dan Pseudo-class Selector (.class, [attribute], :hover).
+            - Tag/Type Selector (seperti div, p) dan Pseudo-element Selector (::before, ::after).
+            - Universal Selector (*), combinators (+, >, ~), dan inheritance (pewarisan).
+        
+    [x] Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!
+        Jawab:
+            Responsive design sangat penting karena memungkinkan sebuah website menyesuaikan tampilannya di berbagai ukuran layar, baik di desktop, tablet, maupun ponsel. Hal ini memastikan pengguna mendapatkan pengalaman yang nyaman dan konsisten, terlepas dari perangkat yang mereka gunakan. Selain meningkatkan pengalaman pengguna, desain responsif juga membantu optimasi SEO dan menghemat waktu serta biaya, karena tidak perlu membuat versi terpisah untuk desktop dan mobile.
+
+            Sebagai contoh, aplikasi seperti Twitter sudah menerapkan responsive design dengan baik, sehingga tampilannya selalu terlihat rapi di semua perangkat. Di sisi lain, beberapa situs web lama belum menerapkan desain responsif, sehingga tampilan mereka di perangkat mobile kurang optimal, seringkali membuat pengguna harus zoom atau scroll secara berlebihan untuk membaca konten
+
+    [x] Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+        Jawab:
+            Margin: Ruang di luar elemen, mengatur jarak antar elemen.
+            Contoh: margin: 20px;
+
+            Border: Garis di sekitar elemen.
+            Contoh: border: 2px solid black;
+
+            Padding: Ruang di dalam elemen, mengatur jarak konten dari border.
+            Contoh: padding: 15px;
+
+    [x] Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+        Jawab:
+            Flexbox: Tata letak satu dimensi (baris/kolom), cocok untuk elemen sebaris.
+            Contoh: display: flex; justify-content: center;
+
+            Grid Layout: Tata letak dua dimensi (baris dan kolom), cocok untuk tata letak kompleks.
+            Contoh: display: grid; grid-template-columns: repeat(3, 1fr);
+
+            Perbedaan: Flexbox untuk baris/kolom, Grid untuk kombinasi baris dan kolom.
+
+    [x] Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+        Jawab:
+            1. Menambahkan Tailwind ke Aplikasi Django
+
+                - Tambahkan meta tag di base.html:        
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+                - Gunakan CDN Tailwind di head:
+                    <script src="https://cdn.tailwindcss.com"></script>
+
+            
+            2. Menambahkan Bootstrap (Skip jika memilih Tailwind)
+
+                Tambahkan meta tag, CSS, dan JS Bootstrap di base.html:
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+            3. Fitur Edit Mood
+
+                - Tambahkan fungsi edit_mood di views.py:
+                    def edit_mood(request, id):
+                        mood = MoodEntry.objects.get(pk=id)
+                        form = MoodEntryForm(request.POST or None, instance=mood)
+                        if form.is_valid() and request.method == "POST":
+                            form.save()
+                            return HttpResponseRedirect(reverse('main:show_main'))
+                        return render(request, "edit_mood.html", {'form': form})
+
+                - Tambahkan path URL di urls.py:
+                    path('edit-mood/<uuid:id>', edit_mood, name='edit_mood')
+
+            4. Fitur Hapus Mood
+
+                - Tambahkan fungsi delete_mood di views.py:
+                    def delete_mood(request, id):
+                        mood = MoodEntry.objects.get(pk=id)
+                        mood.delete()
+                        return HttpResponseRedirect(reverse('main:show_main'))
+
+                - Tambahkan path URL di urls.py:
+                    path('delete/<uuid:id>', delete_mood, name='delete_mood')
+
+            5. Menambahkan Navbar
+
+                Buat navbar.html dan gunakan Tailwind untuk styling.
+                Sertakan navbar di halaman-halaman dengan {% include 'navbar.html' %}.
+
+            6. Konfigurasi Static Files
+
+                - Tambahkan WhiteNoiseMiddleware di settings.py:
+                    MIDDLEWARE = [
+                        'whitenoise.middleware.WhiteNoiseMiddleware',
+                    ]   
+
+                    Konfigurasi STATIC_URL dan STATICFILES_DIRS untuk handling file statis.
+
+            7. Menambahkan Global CSS
+
+                - Buat global.css di folder static/css/.
+                - Hubungkan ke base.html:
+                    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+
+
+[x] Melakukan add-commit-push ke GitHub.
+
+
+ 
+

@@ -1,116 +1,34 @@
 {% extends 'base.html' %}
-
-{% block meta %}
-<title>Welcome to Your App</title>
-{% endblock meta %}
-
+{% load static %}
 {% block content %}
-<style>
-    /* Pengaturan gaya umum untuk halaman */
-    html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(135deg, #1f4037, #99f2c8);
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
 
-    /* Container utama untuk konten */
-    .landing-container {
-        max-width: 800px;
-        padding: 50px;
-        background: rgba(0, 0, 0, 0.6);
-        border-radius: 15px;
-        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
-    }
+<title>Welcome to konohapedia</title>
 
-    /* Gaya teks heading */
-    h1 {
-        font-size: 56px;
-        margin-bottom: 20px;
-        color: #00e676;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    }
+<div class="bg-gray-100 h-screen">
 
-    /* Gaya paragraf */
-    p {
-        font-size: 20px;
-        margin-bottom: 30px;
-        line-height: 1.5;
-    }
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                konohapedia
+            </div>
+            <div>
+                <a href="{% url 'main:login' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mx-2">Login</a>
+                <a href="{% url 'main:register' %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">Sign Up</a>
+            </div>
+        </div>
+    </nav>
 
-    /* Gaya untuk tombol login */
-    .btn {
-        padding: 15px 30px;
-        font-size: 18px;
-        color: white;
-        background-color: #00c6ff;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        text-decoration: none;
-    }
-
-    .btn:hover {
-        background-color: #0073e6;
-    }
-
-    /* Gaya footer kecil di bagian bawah */
-    .footer {
-        margin-top: 40px;
-        font-size: 14px;
-        color: #ccc;
-    }
-
-    .footer a {
-        color: #00e676;
-        text-decoration: none;
-    }
-
-    .footer a:hover {
-        text-decoration: underline;
-    }
-
-    /* Responsif untuk layar kecil */
-    @media (max-width: 768px) {
-        h1 {
-            font-size: 40px;
-        }
-
-        p {
-            font-size: 18px;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            font-size: 16px;
-        }
-
-        .landing-container {
-            padding: 30px;
-        }
-    }
-
-</style>
-
-<div class="landing-container">
-    <h1>Welcome to konohapedia</h1>
-    <p>Ismail Yanuar Anwas dengan kelas PBP E</p>
-    <a href="{% url 'main:login' %}" class="btn">Get Started</a>
-
-    <div class="footer">
-        <p>&copy; 2024 konohapedia | <a href="#">Privacy Policy</a></p>
+    <div class="flex-grow flex flex-col items-center justify-center text-center">
+        <h1 class="text-5xl font-bold text-gray-800 mb-4">Enjoy life</h1>
+        <p class="text-xl text-gray-600 mb-2">Ismail Yanuar Anwas</p>
+        <p class="text-lg text-gray-500">Kelas PBP E</p>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mt-6 max-w-md mx-auto">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-4">Enjoy shopping</h2>
+            <p class="text-gray-600 mb-4">Belanja online di sini, pasti memuaskan!  </p>
+            <a href="{% url 'main:login' %}" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 shadow-md">Start Exploring</a>
+        </div>
     </div>
 </div>
-
-{% endblock content %}
-
-
-
-<!-- Discover an innovative and user-friendly platform where you can access our powerful tools and services. Let's make your experience extraordinary! -->
+{% endblock %}

@@ -6,27 +6,44 @@
 
 {% block content %}
 
-<div class="login">
-  <h1>Register</h1>
+<div class="bg-gray-50 p-8 rounded-lg shadow-lg mx-auto mt-12 max-w-md">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Register</h1>
 
-  <form method="POST">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-      <tr>
-        <td></td>
-        <td><input type="submit" name="submit" value="Daftar" /></td>
-      </tr>
-    </table>
-  </form>
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        
+        <div class="flex flex-col">
+            <label for="{{ form.username.id_for_label }}" class="mb-2">{{ form.username.label }}</label>
+            <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" class="p-2 border border-gray-300 rounded" required>
+        </div>
 
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+        <div class="flex flex-col">
+            <label for="{{ form.email.id_for_label }}" class="mb-2">{{ form.email.label }}</label>
+            <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" class="p-2 border border-gray-300 rounded" required>
+        </div>
+
+        <div class="flex flex-col">
+            <label for="{{ form.password1.id_for_label }}" class="mb-2">{{ form.password1.label }}</label>
+            <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" class="p-2 border border-gray-300 rounded" required>
+        </div>
+
+        <div class="flex flex-col">
+            <label for="{{ form.password2.id_for_label }}" class="mb-2">{{ form.password2.label }}</label>
+            <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" class="p-2 border border-gray-300 rounded" required>
+        </div>
+
+        <div class="flex justify-end">
+            <input type="submit" name="submit" value="Daftar" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg shadow-md transition duration-300">
+        </div>
+    </form>
+
+    {% if messages %}
+    <ul class="mt-4 text-red-500">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </div>
 
 {% endblock content %}
