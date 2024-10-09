@@ -245,7 +245,7 @@ Tugas 4
 
 
 
-Tugas 4
+Tugas 5
 [x]  Implementasikan fungsi untuk menghapus dan mengedit product.
 [x]  Kustomisasi desain pada template HTML yang telah dibuat pada tugas-tugas sebelumnya menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma) dengan ketentuan sebagai berikut:
         [x]  Kustomisasi halaman login, register, dan tambah product semenarik mungkin.
@@ -358,5 +358,170 @@ Tugas 4
 [x] Melakukan add-commit-push ke GitHub.
 
 
- 
 
+
+
+
+
+Tugas 6
+
+[x] Mengubah tugas 5 yang telah dibuat sebelumnya menjadi menggunakan AJAX.
+    [x] AJAX Get
+        [x] Ubahlah kode cards data mood agar dapat mendukung AJAX GET.
+        [x] Lakukan pengambilan data mood menggunakan AJAX GET. Pastikan bahwa data yang diambil hanyalah data milik pengguna yang logged-in.
+    [x] AJAX POST
+        [x] Buatlah sebuah tombol yang membuka sebuah modal dengan form untuk menambahkan mood.
+        [x] Buatlah fungsi view baru untuk menambahkan mood baru ke dalam basis data.
+        [x] Buatlah path /create-ajax/ yang mengarah ke fungsi view yang baru kamu buat.
+        [x] Hubungkan form yang telah kamu buat di dalam modal kamu ke path /create-ajax/.
+        [x] Lakukan refresh pada halaman utama secara asinkronus untuk menampilkan daftar mood terbaru tanpa reload halaman utama secara keseluruhan.
+
+[x] Menjawab beberapa pertanyaan berikut pada README.md pada root folder (silakan modifikasi README.md yang telah kamu buat sebelumnya; tambahkan subjudul untuk setiap tugas).
+    [x] Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+        Jawab:
+            JavaScript sangat membantu dalam membuat aplikasi web lebih dinamis dan interaktif. Dengan JavaScript, kita bisa memperbarui bagian-bagian halaman web secara langsung tanpa perlu me-reload seluruh halaman, sehingga pengalaman pengguna jadi lebih mulus dan cepat.
+    [x] Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+        Jawab:
+            await memastikan bahwa program menunggu hasil dari fetch() sebelum melanjutkan ke baris berikutnya. Tanpa await, program akan lanjut tanpa menunggu hasil, dan ini bisa menyebabkan data yang diharapkan belum siap atau kosong.
+    [x] Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+        Jawab:
+            csrf_exempt menonaktifkan pemeriksaan token CSRF pada view tertentu, agar request POST yang dikirim melalui AJAX bisa diproses tanpa gagal. Jika tidak digunakan, Django akan menolak request POST karena tidak ada token CSRF.
+    [x] Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+        Jawab:
+            Meski validasi di frontend itu penting, pembersihan data di backend tetap diperlukan untuk keamanan. Frontend bisa dimanipulasi oleh pengguna atau pihak luar, sehingga backend harus selalu memeriksa dan memastikan data yang diproses benar-benar valid.
+    [x] Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+        Jawab: 
+            
+            - Pertama-tama menambahkan error pada massage error
+
+                messages.error(request, “Invalid username or password. Please try again.”)
+
+            - Membuat fungsi untuk menambahkan Product dengan AJAX
+                Tambahkan kedua impor berikut pada file views.py.
+                    from django.views.decorators.csrf import csrf_exempt
+                    from django.views.decorators.http import require_POST
+
+                Membuat fungsi baru pada views.py dengan nama add_product_entry_ajax
+                    @csrf_exempt
+                    @require_POST
+                    def add_product_entry_ajax(request):
+                        name = request.POST.get("name")
+                        description = request.POST.get("description")
+                        price = request.POST.get("price")
+                        rating = request.POST.ger("rating)
+                        user = request.user
+
+                        new_product = ProductEntry(
+                            product=product, description=description,
+                            price=price, rating=rating,
+                            user=user
+                        )
+                        new_product.save()
+
+                        return HttpResponse(b"CREATED", status=201)
+
+            - Menambahkan Routing Untuk Fungsi add_product_entry_ajax
+                Membuka urls.py di subdirektori main
+                    from main.views import ..., add_mood_entry_ajax
+
+                Menambahkan path url ke dalma urlpatterns
+                    path('create-product-entry-ajax', add_product_entry_ajax, name='add_product_entry_ajax'),
+
+            - Menampilkan Data Product Entry dengan fetch API
+                Membuka berkas views.py dan menghapus bagian kode 
+                    product_entries = ProductEntry.objects.filter(user=request.user)
+                    'product_entries': product_entries,
+                
+                Membuka berkas views.py dan mengubah baris pertama pada show_json dan show_xml
+                    data = ProductEntry.objects.filter(user=request.user)
+
+                Membuka berkas main.html dan menghapus bagian block conditional product_entries
+                    {% if not product_entries %}
+                    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                        <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+                        <p class="text-center text-gray-600 mt-4">Belum ada data product pada konohapedia.</p>
+                    </div>
+                    {% else %}
+                        <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full">
+                            {% for product_entry in product_entries %}
+                                {% include 'card_product.html' with product_entry=product_entry %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                Lalu menambahkan 
+                    <div id="product_entry_cards"></div>
+
+                Membuat block script di bagian bawah sebelum {% endblock content %}
+                    <script>
+                    async function getProductEntries(){
+                        return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+                    }
+                    </script>
+
+                Membuat fungsi baru pada block script dengan nama refreshProductEntries
+
+            - Membuat Modal Sebagai Form Untuk Menambahkan Product
+                Menambahkan potongan kode untuk mengimplementasikan tailwind
+                Karena menggunakan vanila tailwind CSS jadi tidak ada class modal yang built in
+                Mengubah bagian tombol Add New Product Entry
+
+            - Menambahkan Data Mood dengan AJAX
+                Membuat fungsi baru pada block script dengan nama addProductEntry
+                Menambahkan sebuah event listener pada form di modal
+                    <script>
+                    ...
+                    document.getElementById("productEntryForm").addEventListener("submit", (e) => {
+                        e.preventDefault();
+                        addProductEntry();
+                    })
+                    </script>
+
+            - Melindungi Aplikasi dari Cross Site Scripting (XSS)
+                Menambahkan data mood dengan nilai field mood
+                    <img src=x onerror="alert('XSS!');">
+                Menekan tombol simpan dan jika penyimpanan berhasil dilakukan, akan ada alert dengan nilai XSS
+            
+            - Menambahkan strip_tags untuk "Membersihkan" Data Baru
+                Membuka berkas views.py dan forms.py dan menambahkan import 
+                    from django.utils.html import strip_tags
+                di fungsi add_product_ entry_ajax di views.py, gunakan fungsi strip_tags pada data product dan description
+                    @csrf_exempt
+                    @require_POST
+                    def add_product_entry_ajax(request):
+                        name = strip_tags(request.POST.get("product")) # strip HTML tags!
+                        description = strip_tags(request.POST.get("description")) # strip HTML tags!
+
+                di class ProducEntryForm di forms.py harus ditambahkan dua method baru
+                    def clean_product(self):
+                        name = self.cleaned_data["product"]
+                        return strip_tags(name)
+
+                    def clean_product(self):
+                        description = self.cleaned_data["description"]
+                        return strip_tags(description)
+
+                lalu, menghapus strip_tags, dan menghapus data product yang udah ditambahkam
+
+            - Membersihkan Data dengan DOMPurify 
+                Membuka berkas main.html dan menambahkan potongan kode 
+                    {% block meta %}
+                    ...
+                    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+                    ...
+                    {% endblock meta %}
+
+                di fungsi refreshProductEntries menambahkan potongan kode 
+                    <script>
+                    ...
+                    async function refreshProductEntries() {
+                        ...
+                        productEntries.forEach((item) => {
+                            const name = DOMPurify.sanitize(item.fields.name);
+                            const description = DOMPurify.sanitize(item.fields.description);
+                            ...
+                        });
+                        ...
+                    }
+                    ...
+                </script>
