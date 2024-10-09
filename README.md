@@ -1,3 +1,8 @@
+link untuk PWS = http://ismail-yanuar-konohapedia.pbp.cs.ui.ac.id
+
+
+
+
 Tugas 2
 
 [x] Membuat sebuah proyek Django baru.
